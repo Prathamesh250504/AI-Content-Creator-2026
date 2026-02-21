@@ -80,9 +80,36 @@ A comprehensive AI-powered content generation platform with advanced features fo
 
 ### Production Deployment
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+**Complete deployment guides available:**
 
-Quick deployment options:
+1. **Backend (Render)**: See [RENDER_BACKEND_DEPLOYMENT.md](RENDER_BACKEND_DEPLOYMENT.md)
+   - Step-by-step guide with screenshots
+   - Environment variables setup
+   - Troubleshooting tips
+
+2. **Frontend (Netlify)**: See [DEPLOYMENT.md](DEPLOYMENT.md)
+   - Netlify configuration
+   - Environment variables
+   - Custom domain setup
+
+3. **Quick Reference**: See [BACKEND_DEPLOY_CHECKLIST.md](BACKEND_DEPLOY_CHECKLIST.md)
+   - Printable checklist
+   - Quick commands
+   - Testing steps
+
+**Quick deployment:**
+```bash
+# 1. Deploy Backend to Render (5 minutes)
+#    Follow: RENDER_BACKEND_DEPLOYMENT.md
+
+# 2. Deploy Frontend to Netlify (2 minutes)
+#    Follow: DEPLOYMENT.md
+
+# 3. Test everything
+#    Follow: BACKEND_DEPLOY_CHECKLIST.md
+```
+
+**Deployment options:**
 - **Frontend**: Netlify (recommended)
 - **Backend**: Render, Railway, or Heroku
 - **Database**: MongoDB Atlas
