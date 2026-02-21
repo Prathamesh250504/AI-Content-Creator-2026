@@ -1,12 +1,14 @@
 # Netlify Configuration for AI Content Creator
 
 [build]
-  # Build command for React frontend
-  command = "cd react-frontend && npm install && npm run build"
-  # Directory to publish (React build output)
-  publish = "react-frontend/build"
-  # Functions directory for serverless backend
-  functions = "netlify/functions"
+  # Base directory is the React frontend folder
+  base = "react-frontend"
+  # Build command (runs inside base directory)
+  command = "npm install && npm run build"
+  # Directory to publish (relative to base)
+  publish = "build"
+  # Functions directory (relative to base)
+  functions = "../netlify/functions"
 
 [build.environment]
   # Node version
