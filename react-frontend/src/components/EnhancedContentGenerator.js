@@ -73,7 +73,7 @@ const EnhancedContentGenerator = ({
     }, 1000);
     
     return () => clearTimeout(timer);
-  }, [content, generatedContent]);
+  }, [content, generatedContent, loadSuggestions]);
   
   // Quick enhancement actions
   const quickEnhance = async (type, value) => {
