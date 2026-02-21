@@ -112,6 +112,7 @@ const SignupModal = ({ isOpen, onClose, onSwitchToLogin }) => {
   const handleGoogleSuccess = async (credentialResponse) => {
     setLoading(true);
     try {
+      console.log('Google Sign-In successful, creating account...');
       const result = await authService.googleAuth(credentialResponse.credential);
       
       if (result.success) {
@@ -126,6 +127,7 @@ const SignupModal = ({ isOpen, onClose, onSwitchToLogin }) => {
         
         navigate('/dashboard');
       } else {
+        console.error('Backend authentication failed:', result.error);
         toast.error(result.error || 'Google signup failed. Please try again.');
       }
     } catch (error) {
@@ -136,8 +138,12 @@ const SignupModal = ({ isOpen, onClose, onSwitchToLogin }) => {
     }
   };
 
-  const handleGoogleError = () => {
-    toast.error('Google signup failed. Please try again.');
+  const handleGoogleError = (error) => {
+    console.error('Google Sign-In error:', error);
+    // Don't show error for user-cancelled actions
+    if (error && error.type !== 'popup_closed' && error.type !== 'user_cancelled') {
+      toast.error('Google signup failed. Please try again.');
+    }
   };
 
   if (!isOpen) return null;
@@ -365,7 +371,7 @@ const SignupModal = ({ isOpen, onClose, onSwitchToLogin }) => {
           </div>
 
           {/* Social Signup */}
-          <div className="flex justify-center">
+          <div className="flex justify-center w-full">
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
               onError={handleGoogleError}
@@ -375,7 +381,7 @@ const SignupModal = ({ isOpen, onClose, onSwitchToLogin }) => {
               text="signup_with"
               shape="rectangular"
               logo_alignment="left"
-              width="100%"
+              width="400"
             />
           </div>
 
