@@ -3,7 +3,7 @@
  * Main dashboard for content quality analysis with visualizations
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { 
   BarChart3, 
