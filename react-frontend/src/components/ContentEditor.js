@@ -134,7 +134,7 @@ const ContentEditor = ({
   };
   
   // Load enhancement suggestions
-  const loadSuggestions = async () => {
+  const loadSuggestions = useCallback(async () => {
     if (!content.trim()) return;
     
     setLoadingSuggestions(true);
@@ -163,7 +163,7 @@ const ContentEditor = ({
     } finally {
       setLoadingSuggestions(false);
     }
-  };
+  }, [content, contentType]);
   
   // Apply enhancement suggestion
   const applySuggestion = async (suggestion) => {

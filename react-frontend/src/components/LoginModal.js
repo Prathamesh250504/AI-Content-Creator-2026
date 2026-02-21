@@ -61,15 +61,6 @@ const LoginModal = ({ isOpen, onClose, onSwitchToSignup }) => {
     }
   };
 
-  const handleSocialLogin = async (provider) => {
-    if (provider === 'Google') {
-      // Google login will be handled by the GoogleLogin component
-      // This is just a placeholder
-      return;
-    }
-    toast.success(`${provider} login coming soon!`);
-  };
-
   const handleGoogleSuccess = async (credentialResponse) => {
     setLoading(true);
     try {

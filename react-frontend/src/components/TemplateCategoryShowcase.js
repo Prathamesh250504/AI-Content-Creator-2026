@@ -7,11 +7,7 @@ const TemplateCategoryShowcase = ({ onCategorySelect, onTemplatePreview }) => {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadCategoriesAndTemplates();
-  }, [user]);
-
-  const loadCategoriesAndTemplates = async () => {
+  const loadCategoriesAndTemplates = useCallback(async () => {
     try {
       if (user && user.token) {
         // Authenticated user - load full template data
@@ -44,7 +40,11 @@ const TemplateCategoryShowcase = ({ onCategorySelect, onTemplatePreview }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    loadCategoriesAndTemplates();
+  }, [loadCategoriesAndTemplates]);
 
   const getCategoryIcon = (categoryValue) => {
     const icons = {

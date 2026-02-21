@@ -48,7 +48,7 @@ const EnhancedContentGenerator = ({
   }, [content]);
   
   // Load suggestions function (defined before useEffect to avoid hoisting issues)
-  const loadSuggestions = async () => {
+  const loadSuggestions = useCallback(async () => {
     if (!content.trim()) return;
     
     setLoadingSuggestions(true);
@@ -62,7 +62,7 @@ const EnhancedContentGenerator = ({
     } finally {
       setLoadingSuggestions(false);
     }
-  };
+  }, [content, contentType]);
   
   // Load suggestions when content changes (debounced)
   useEffect(() => {

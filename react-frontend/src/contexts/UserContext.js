@@ -18,11 +18,7 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    initializeAuth();
-  }, []);
-
-  const initializeAuth = async () => {
+  const initializeAuth = useCallback(async () => {
     try {
       setLoading(true);
       
@@ -55,7 +51,11 @@ export const UserProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
 
   const loadDefaultProfile = async () => {
     try {

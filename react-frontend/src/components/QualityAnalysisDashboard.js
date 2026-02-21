@@ -28,13 +28,7 @@ const QualityAnalysisDashboard = ({ content, contentType = 'general', onAnalysis
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
 
-  useEffect(() => {
-    if (content && content.trim()) {
-      analyzeContent();
-    }
-  }, [content, contentType]);
-
-  const analyzeContent = async () => {
+  const analyzeContent = useCallback(async () => {
     if (!content || !content.trim()) {
       setError('No content provided for analysis');
       return;
@@ -59,7 +53,13 @@ const QualityAnalysisDashboard = ({ content, contentType = 'general', onAnalysis
     } finally {
       setLoading(false);
     }
-  };
+  }, [content, contentType, onAnalysisComplete]);
+
+  useEffect(() => {
+    if (content && content.trim()) {
+      analyzeContent();
+    }
+  }, [content, contentType, analyzeContent]);
 
   const getScoreColor = (score) => {
     if (score >= 80) return 'text-green-600';
