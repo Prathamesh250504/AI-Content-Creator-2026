@@ -3823,13 +3823,17 @@ if __name__ == '__main__':
         print("Warning: OPENROUTER_API_KEY not found in environment variables")
         print("Please set your API key in the .env file")
     
+    # Get port from environment variable (for Render deployment) or default to 8000
+    port = int(os.getenv('PORT', 8000))
+    
     print("Starting AI Content Creator API Server...")
-    print("React frontend should proxy to http://localhost:8000")
+    print(f"Server will run on port {port}")
+    print("React frontend should proxy to this server")
     
     # Run the Flask app
     app.run(
         host='0.0.0.0',
-        port=8000,
-        debug=True,
+        port=port,
+        debug=os.getenv('FLASK_ENV') != 'production',
         threaded=True
     )
