@@ -5,8 +5,10 @@ This guide covers deploying the AI Content Creator application to production.
 ## Architecture Overview
 
 - **Frontend**: React app deployed on Netlify
-- **Backend**: Python Flask API (deploy separately on Render/Railway/Heroku)
+- **Backend**: Python Flask API deployed separately on Render/Railway/Heroku
 - **Database**: MongoDB Atlas (cloud-hosted)
+
+Note: The frontend and backend are deployed separately. The frontend connects to the backend via the API URL set in environment variables.
 
 ## Option 1: Netlify (Frontend) + Render (Backend)
 

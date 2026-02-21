@@ -1,9 +1,0 @@
-{
-  "name": "ai-content-creator-functions",
-  "version": "1.0.0",
-  "description": "Netlify serverless functions for AI Content Creator",
-  "main": "api.js",
-  "dependencies": {
-    "axios": "^1.6.7"
-  }
-}

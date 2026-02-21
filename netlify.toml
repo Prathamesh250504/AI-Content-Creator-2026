@@ -7,20 +7,13 @@
   command = "npm install && npm run build"
   # Directory to publish (relative to base)
   publish = "build"
-  # Functions directory (relative to base)
-  functions = "../netlify/functions"
 
 [build.environment]
   # Node version
   NODE_VERSION = "18"
-  # Python version for functions
-  AWS_LAMBDA_JS_RUNTIME = "nodejs18.x"
 
-# Redirect all API calls to backend serverless functions
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
+# Redirect all API calls to backend server (set REACT_APP_API_URL in Netlify environment variables)
+# No serverless functions needed - backend deployed separately
 
 # SPA fallback - redirect all routes to index.html
 [[redirects]]
