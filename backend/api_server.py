@@ -4,13 +4,6 @@ Flask API Server for AI Content Creator React Frontend
 Provides REST API endpoints for content generation, history, and analytics
 """
 
-from flask import Flask, request, jsonify, send_file
-try:
-    from flask_cors import CORS
-    CORS_AVAILABLE = True
-except ImportError:
-    CORS_AVAILABLE = False
-    print("WARNING: flask-cors not available, CORS will be handled manually")
 import os
 import sys
 from datetime import datetime
@@ -19,9 +12,21 @@ import io
 import csv
 import uuid
 
-# Add backend path for imports
+# CRITICAL: Add backend path for imports BEFORE any local imports
 current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(current_dir)
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
+
+print(f"Backend directory: {current_dir}")
+print(f"Python path: {sys.path[:3]}")
+
+from flask import Flask, request, jsonify, send_file
+try:
+    from flask_cors import CORS
+    CORS_AVAILABLE = True
+except ImportError:
+    CORS_AVAILABLE = False
+    print("WARNING: flask-cors not available, CORS will be handled manually")
 
 # Import backend modules
 try:
@@ -39,9 +44,13 @@ try:
     from template_library import get_template_categories, get_all_templates
     from prompt_template_manager import PromptTemplateManager
     from ab_test_manager import ab_test_manager
+    print("✅ All backend modules imported successfully")
 except ImportError as e:
-    print(f"Import error: {e}")
-    print("Make sure all backend modules are available")
+    print(f"❌ Import error: {e}")
+    print(f"Current directory: {current_dir}")
+    print(f"Directory contents: {os.listdir(current_dir)}")
+    import traceback
+    traceback.print_exc()
     sys.exit(1)
 
 app = Flask(__name__)
