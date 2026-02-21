@@ -1,0 +1,50 @@
+# Netlify Configuration for AI Content Creator
+
+[build]
+  # Build command for React frontend
+  command = "cd react-frontend && npm install && npm run build"
+  # Directory to publish (React build output)
+  publish = "react-frontend/build"
+  # Functions directory for serverless backend
+  functions = "netlify/functions"
+
+[build.environment]
+  # Node version
+  NODE_VERSION = "18"
+  # Python version for functions
+  AWS_LAMBDA_JS_RUNTIME = "nodejs18.x"
+
+# Redirect all API calls to backend serverless functions
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# SPA fallback - redirect all routes to index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers for security and CORS
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+
+# Environment variables (set these in Netlify dashboard)
+# OPENAI_API_KEY
+# MONGODB_URI
+# JWT_SECRET_KEY
+# GOOGLE_CLIENT_ID
+# GOOGLE_CLIENT_SECRET

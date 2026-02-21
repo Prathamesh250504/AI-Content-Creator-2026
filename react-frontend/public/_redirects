@@ -1,0 +1,8 @@
+# Netlify redirects file for React Router
+# This ensures all routes are handled by React Router
+
+# API calls go to backend (if using Netlify Functions)
+/api/*  /.netlify/functions/api/:splat  200
+
+# All other routes go to index.html (SPA)
+/*  /index.html  200
