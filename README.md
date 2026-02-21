@@ -10,7 +10,7 @@ A comprehensive AI-powered content generation platform with advanced features fo
 - **Batch Processing**: Generate multiple pieces of content simultaneously
 - **Template Library**: Pre-built templates for various content types
 - **Content Enhancement**: Post-generation editing and improvement tools
-- **User Authentication**: Secure user accounts with preferences and history
+- **User Authentication**: Secure user accounts with Google OAuth
 - **Dark/Light Mode**: Responsive design with theme switching
 
 ## Tech Stack
@@ -18,8 +18,9 @@ A comprehensive AI-powered content generation platform with advanced features fo
 ### Backend
 - **Python 3.11+** with Flask
 - **MongoDB Atlas** for data storage
-- **OpenAI API** for content generation
+- **OpenRouter API** for content generation
 - **JWT Authentication** for secure user sessions
+- **Google OAuth 2.0** for authentication
 
 ### Frontend
 - **React 18** with modern hooks
@@ -28,162 +29,78 @@ A comprehensive AI-powered content generation platform with advanced features fo
 - **Chart.js** for data visualization
 - **Axios** for API communication
 
-## Installation
+## Quick Start
 
-### Prerequisites
-- Python 3.11 or higher
-- Node.js 18 or higher
-- MongoDB Atlas account
-- OpenAI API key
+### Local Development
 
-### Quick Start (Development)
-
-1. Clone the repository:
+1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
-   cd ai-content-creator
+   git clone https://github.com/Prathamesh250504/AI-Content-Creator-2026.git
+   cd AI-Content-Creator-2026
    ```
 
-2. Set up environment variables:
+2. **Backend Setup**
    ```bash
-   # Copy example files
-   cp .env.example .env
-   cp react-frontend/.env.example react-frontend/.env
-   
-   # Edit .env files with your actual values
-   ```
-
-3. Install and run backend:
-   ```bash
-   # Create virtual environment
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   
-   # Install dependencies
-   pip install -r requirements.txt
-   
-   # Start backend server
    cd backend
+   python -m venv venv
+   source venv/bin/activate  # Windows: venv\Scripts\activate
+   pip install -r requirements.txt
    python start_server.py
    ```
 
-4. Install and run frontend (in new terminal):
+3. **Frontend Setup** (new terminal)
    ```bash
    cd react-frontend
    npm install
    npm start
    ```
 
-5. Access the application:
+4. **Access the app**
    - Local: http://localhost:3000
-   - Mobile (same network): http://192.168.1.5:3000
+   - Mobile: http://192.168.1.5:3000
 
 ### Production Deployment
 
-**Complete deployment guides available:**
+See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for complete deployment instructions.
 
-1. **Backend (Render)**: See [RENDER_BACKEND_DEPLOYMENT.md](RENDER_BACKEND_DEPLOYMENT.md)
-   - Step-by-step guide with screenshots
-   - Environment variables setup
-   - Troubleshooting tips
+**Quick Deploy:**
+1. Backend → Render
+2. Frontend → Netlify
+3. Database → MongoDB Atlas
 
-2. **Frontend (Netlify)**: See [DEPLOYMENT.md](DEPLOYMENT.md)
-   - Netlify configuration
-   - Environment variables
-   - Custom domain setup
+## Environment Variables
 
-3. **Quick Reference**: See [BACKEND_DEPLOY_CHECKLIST.md](BACKEND_DEPLOY_CHECKLIST.md)
-   - Printable checklist
-   - Quick commands
-   - Testing steps
-
-**Quick deployment:**
+### Backend (.env)
 ```bash
-# 1. Deploy Backend to Render (5 minutes)
-#    Follow: RENDER_BACKEND_DEPLOYMENT.md
-
-# 2. Deploy Frontend to Netlify (2 minutes)
-#    Follow: DEPLOYMENT.md
-
-# 3. Test everything
-#    Follow: BACKEND_DEPLOY_CHECKLIST.md
+OPENROUTER_API_KEY=your_api_key
+MONGODB_URI=your_mongodb_uri
+JWT_SECRET=your_secret
+GOOGLE_CLIENT_ID=your_google_client_id
 ```
 
-**Deployment options:**
-- **Frontend**: Netlify (recommended)
-- **Backend**: Render, Railway, or Heroku
-- **Database**: MongoDB Atlas
-
-Run cleanup before deployment:
+### Frontend (.env)
 ```bash
-python cleanup.py
+REACT_APP_API_URL=http://localhost:8000/api
+REACT_APP_GOOGLE_CLIENT_ID=your_google_client_id
 ```
-
-## Usage
-
-1. Open your browser and navigate to `http://localhost:3000`
-2. Create an account or log in
-3. Choose a content template or use advanced generation
-4. Configure parameters and generate content
-5. Analyze quality metrics and make improvements
-6. Save to history or export your content
-
-## API Endpoints
-
-### Authentication
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `POST /api/auth/verify` - Token verification
-
-### Content Generation
-- `POST /api/generate` - Generate content
-- `POST /api/generate/advanced` - Advanced content generation
-- `GET /api/templates` - Get available templates
-
-### Content Management
-- `GET /api/auth/history` - Get user content history
-- `DELETE /api/history/{id}` - Delete content entry
-- `GET /api/auth/statistics` - Get user statistics
-
-### A/B Testing
-- `POST /api/ab-tests` - Create A/B test
-- `GET /api/ab-tests/{id}` - Get A/B test results
-- `POST /api/ab-tests/{id}/results` - Submit A/B test results
-
-### Batch Processing
-- `POST /api/batch/create` - Create batch job
-- `POST /api/batch/upload-csv` - Upload CSV for batch processing
-- `GET /api/batch/jobs` - Get user batch jobs
 
 ## Project Structure
 
 ```
-├── backend/                 # Python Flask backend
-│   ├── api_server.py       # Main API server
-│   ├── auth.py             # Authentication logic
-│   ├── database.py         # Database connections
-│   ├── llm_client.py       # OpenAI API client
-│   ├── template_library.py # Content templates
+├── backend/                 # Flask API
+│   ├── api_server.py       # Main server
+│   ├── auth.py             # Authentication
+│   ├── database.py         # MongoDB
 │   └── ...
-├── react-frontend/         # React frontend
+├── react-frontend/         # React app
 │   ├── src/
-│   │   ├── components/     # React components
-│   │   ├── contexts/       # React contexts
-│   │   ├── pages/          # Page components
+│   │   ├── components/     # UI components
+│   │   ├── pages/          # Pages
 │   │   └── services/       # API services
 │   └── public/
-├── requirements.txt        # Python dependencies
-└── README.md              # This file
+└── DEPLOYMENT_GUIDE.md     # Deployment docs
 ```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
 
 ## License
 
-This project is licensed under the MIT License.
+MIT License
