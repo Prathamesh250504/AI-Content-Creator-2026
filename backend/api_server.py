@@ -170,7 +170,20 @@ def require_auth(f):
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
-    return jsonify({'status': 'healthy', 'timestamp': datetime.now().isoformat()})
+    db_connected = db_manager.is_connected()
+    google_client_id = os.getenv('GOOGLE_CLIENT_ID', '')
+    mongodb_uri = os.getenv('MONGODB_URI', '')
+    
+    return jsonify({
+        'status': 'healthy',
+        'timestamp': datetime.now().isoformat(),
+        'db_connected': db_connected,
+        'google_client_id_set': bool(google_client_id),
+        'mongodb_uri_set': bool(mongodb_uri),
+        # Partially show URI to confirm it's the right one without exposing credentials
+        'mongodb_uri_preview': (mongodb_uri[:30] + '...') if mongodb_uri else 'NOT SET',
+        'jwt_secret_set': bool(os.getenv('JWT_SECRET_KEY', ''))
+    })
 
 # Authentication Endpoints
 

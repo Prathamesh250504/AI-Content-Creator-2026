@@ -194,11 +194,16 @@ class GoogleAuthHandler:
                 success = db_manager.create_user_profile(user_id, profile_data)
                 
                 if not success:
-                    logger.error(f"db_manager.create_user_profile returned False for user_id={user_id}")
-                    return {
-                        'success': False,
-                        'error': 'Failed to create user profile. Please try again.'
-                    }
+                    logger.error(f"db_manager.create_user_profile returned False for user_id={user_id}. Trying upsert fallback.")
+                    # Fallback: try update_user_profile which uses upsert=True
+                    success = db_manager.update_user_profile(user_id, profile_data)
+                    if not success:
+                        logger.error(f"Upsert fallback also failed for user_id={user_id}")
+                        return {
+                            'success': False,
+                            'error': 'Failed to create user profile. Please try again.'
+                        }
+                    logger.info(f"Upsert fallback succeeded for user_id={user_id}")
                 
                 # Generate JWT token
                 jwt_token = auth_manager.create_jwt_token(user_id, google_user_info['email'])
