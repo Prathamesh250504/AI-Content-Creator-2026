@@ -5,6 +5,8 @@ Handles Google OAuth 2.0 authentication flow
 
 import os
 import logging
+import traceback
+from datetime import datetime
 from typing import Dict, Optional
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
@@ -89,19 +91,26 @@ class GoogleAuthHandler:
                     'error': 'Email not verified with Google'
                 }
             
-            # Generate user ID from email
-            user_id = auth_manager.generate_user_id(google_user_info['email'])
+            email = google_user_info['email']
             
+            # Generate user ID from email
+            user_id = auth_manager.generate_user_id(email)
+            print(f"[google_auth] user_id={user_id} email={email}")
+
             # Check if user exists
             from database import db_manager
+            print(f"[google_auth] db connected: {db_manager.is_connected()}")
             existing_user = db_manager.get_user_profile(user_id)
+            print(f"[google_auth] existing_user found: {existing_user is not None}")
             
             if existing_user:
                 # User exists, perform login
                 profile = existing_user['profile']
                 
-                # Update last login
-                profile['stats']['last_login'] = google_user_info.get('last_login')
+                # Safely update last login — guard against missing 'stats' key
+                if 'stats' not in profile:
+                    profile['stats'] = {}
+                profile['stats']['last_login'] = datetime.utcnow().isoformat()
                 profile['stats']['login_count'] = profile['stats'].get('login_count', 0) + 1
                 
                 # Update profile picture if changed
@@ -229,9 +238,10 @@ class GoogleAuthHandler:
                 
         except Exception as e:
             logger.error(f"Error authenticating Google user: {e}")
+            traceback.print_exc()
             return {
                 'success': False,
-                'error': 'Authentication failed. Please try again.'
+                'error': f'Authentication failed: {str(e)}'
             }
 
 # Global instance
