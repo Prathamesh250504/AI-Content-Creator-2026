@@ -184,12 +184,20 @@ class GoogleAuthHandler:
                 }
                 
                 # Create user profile
+                if not db_manager.is_connected():
+                    logger.error("Cannot create user profile: MongoDB is not connected. Check MONGODB_URI env var on Render.")
+                    return {
+                        'success': False,
+                        'error': 'Database unavailable. Please contact support or try again later.'
+                    }
+
                 success = db_manager.create_user_profile(user_id, profile_data)
                 
                 if not success:
+                    logger.error(f"db_manager.create_user_profile returned False for user_id={user_id}")
                     return {
                         'success': False,
-                        'error': 'Failed to create user profile'
+                        'error': 'Failed to create user profile. Please try again.'
                     }
                 
                 # Generate JWT token

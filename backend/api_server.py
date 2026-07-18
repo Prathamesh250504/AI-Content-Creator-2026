@@ -311,10 +311,16 @@ def google_auth():
         if result['success']:
             return jsonify(result), 200
         else:
-            return jsonify(result), 401
+            error_msg = result.get('error', '')
+            # 401 only for actual auth failures (bad/expired token, unverified email)
+            # 500 for server-side issues like DB being unavailable
+            if any(k in error_msg.lower() for k in ['token', 'verified', 'invalid google']):
+                return jsonify(result), 401
+            return jsonify(result), 500
             
     except Exception as e:
-        logger.error(f"Google auth error: {e}")
+        import traceback
+        traceback.print_exc()
         return jsonify({
             'success': False,
             'error': 'Google authentication failed. Please try again.'
